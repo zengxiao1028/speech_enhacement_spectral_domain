@@ -1,11 +1,11 @@
 MODEL_WEIGHT = 'model/model_12_13_16.h5'
 
-SPEECH_FILE = '/home/mehdi/data/corpus/VCTK-Corpus/wav48/*/*.wav'
-NOISE_FILE = '/home/mehdi/data/corpus/office_noise/*.wav'
+SPEECH_FILE = '/home/xiao/projects/speech_enhacement_spectral_domain/data/train/*.wav'
+NOISE_FILE = '/home/xiao/projects/speech_enhacement_spectral_domain/data/noise/*.wav'
 RESULT_MODEL = 'model/model_12_22_16.h5'
 
-TEST_SPEECH_FILE = '/home/mehdi/data/corpus/VCTK-Corpus/wav48/p228/p228_146.wav'
-TEST_NOISE_FILE = '/home/mehdi/data/corpus/office_noise/street.wav'
+TEST_SPEECH_FILE = '/home/xiao/projects/speech_enhacement_spectral_domain/data/test/4014-186175-0000.wav'
+TEST_NOISE_FILE = '/home/xiao/projects/speech_enhacement_spectral_domain/data/noise/restaurant3_sub.wav'
 
 RESULT_DIR = 'result/'
 
@@ -13,7 +13,7 @@ RESULT_DIR = 'result/'
 NB_EPOCH = 100000
 BATCH_SIZE = 20
 
-no_frames = 7 # even number! 
+no_frames = 8 # even number!
 numCep = 93
 frame_step = 256
 frame_len = 512

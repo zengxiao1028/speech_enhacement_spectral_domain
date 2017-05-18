@@ -12,10 +12,10 @@ import sys
 import numpy as np
 from scipy.signal import hamming
 from sklearn import preprocessing
-sys.path.append(os.path.abspath('utils'))
-import wave_manipulation as manipulate
+
+import utils.wave_manipulation as manipulate
 import generate_model
-import feature_extraction as mfcc
+import utils.feature_extraction as mfcc
 import librosa
 import parameters as parameter
 
@@ -127,10 +127,11 @@ def data_genertor():
                 ## normalized
                 features_noisy = features_noisy_not_norm 
                 features_clean = features_clean_not_norm 
-                
-                X_train = np.array([np.hstack(features_noisy[L + 1 - no_frames/2: L +2 +no_frames/2 , :]) for L in range(no_frames/2 -1, len(features_noisy)-no_frames/2-1) ])
-                Y_train = np.array([np.hstack(features_clean[L + 1 - no_frames/2: L +2 +no_frames/2 , :]) for L in range(no_frames/2 -1, len(features_clean)-no_frames/2-1) ])
-                Y_train = Y_train[:, no_frames/2 *(numCep + fft_len/2 +1) : no_frames/2 *(numCep + fft_len/2+1) +output_dim ]
+
+                no_frames_div_2 = int(no_frames/2)
+                X_train = np.array([np.hstack(features_noisy[L + 1 - no_frames_div_2: L +2 + no_frames_div_2 , :]) for L in range(no_frames_div_2 -1, len(features_noisy)- no_frames_div_2-1) ])
+                Y_train = np.array([np.hstack(features_clean[L + 1 - no_frames_div_2: L +2 +no_frames_div_2 , :]) for L in range(no_frames_div_2 -1, len(features_clean)-no_frames_div_2-1) ])
+                Y_train = Y_train[:, no_frames_div_2 *(numCep + fft_len/2 +1) : no_frames_div_2 *(numCep + fft_len/2+1) +output_dim ]
                 
                 ## noise aware training 
                 first_frame_noise = features_noisy[:noise_aware_frame_lenght, :]
@@ -161,7 +162,10 @@ def validate_arg(arg):
 def main():
 
     args = get_arguments()
-    
+
+    data = data_genertor()
+    for each in data:
+        print(each[0].shape)
     ## read model
     try:
         model = generate_model.generate()
@@ -183,7 +187,7 @@ def main():
         print(str(e))
         return        
         
-    data = data_genertor()
+
     
     ## training
     checkpoint = ModelCheckpoint(args.result_model, monitor='val_acc', verbose=0, save_weights_only=False, save_best_only=False , mode='auto') 

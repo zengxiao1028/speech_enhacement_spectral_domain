@@ -22,18 +22,18 @@ def generate():
     output_dim = 2* (fft_len/2 +1) +numCep
 
     model = Sequential()
-    model.add(Dense(input_dim= input_dim, output_dim = layer1_dimention, init='glorot_uniform' ) )
+    model.add(Dense(layer1_dimention, input_shape=(16,)) )
     model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(Dropout(.2))
-    model.add(Dense(input_dim=layer1_dimention, output_dim = layer2_dimention, init='glorot_uniform' ) )
+    model.add(Dense(layer2_dimention ) )
     model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(Dropout(.2))
-    model.add(Dense(input_dim=layer2_dimention, output_dim = layer3_dimention, init='glorot_uniform' ) )
+    model.add(Dense(layer3_dimention ) )
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Dense(input_dim=layer3_dimention, output_dim = output_dim, init='glorot_uniform' ))
+    model.add(Dense(output_dim))
     model.add(Activation('linear'))
 
     RMS = RMSprop(lr=0.001, rho=0.9, epsilon=1e-12)
